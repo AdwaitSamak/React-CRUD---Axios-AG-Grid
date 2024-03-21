@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Adwait Samak",
+      "username": "adsamak",
+      "email": "adwait@gmail.com",
+      "phone": "7757091299"
+    },
+    {
+      "id": "2",
+      "name": "Ayush Wadalkar",
+      "username": "ayush",
+      "email": "ayush@gmail.com",
+      "phone": "9373903191"
+    },
+    {
+      "id": "3",
+      "name": "Demo User",
+      "username": "demo",
+      "email": "demo@gmail.com",
+      "phone": "0123456789"
+    },
+    {
+      "id": "4",
+      "name": "New",
+      "username": "new",
+      "email": "new@gmail.com",
+      "phone": "1234"
+    },
+    {
+      "id": "5",
+      "name": "n2",
+      "username": "n2",
+      "email": "n2@gmail",
+      "phone": "12345"
+    },
+    {
+      "id": 6,
+      "name": "Demo User2",
+      "username": "demo2",
+      "email": "new@gmail.com",
+      "phone": "1234"
+    }
+  ]
+}
