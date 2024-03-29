@@ -4,16 +4,12 @@ import { useNavigate } from "react-router-dom";
 function GetidDelete() {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
-  const onhandleClick = (e) => {
-    e.preventDefault();
-    // console.log(id);
-  };
 
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     const confirm = window.confirm("Would you like to delete this record?");
     if (confirm) {
       axios
-        .delete("http://localhost:3000/users?id=" + id)
+        .delete("http://localhost:3000/users/" + id)
         .then((res) => {
             navigate("/");
         })

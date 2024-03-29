@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -33,10 +33,11 @@ function Update() {
   const handleUpdateform = (e) => {
     e.preventDefault();
     // console.log(id);
-    axios.put("http://localhost:3000/users?id=" + id, values)
-      .then((res) => navigate("/"))                      // Navigate to the home page after successful update
-      .catch((error) => console.log("Error updating user:", error)); 
-  
+    const url = `http://localhost:3000/users/${id}`;
+    axios
+      .put(url, values)
+      .then((res) => navigate("/")) // Navigate to the home page after successful update
+      .catch((error) => console.log("Error updating user:", error));
   };
 
   return (
@@ -52,8 +53,8 @@ function Update() {
               type="text"
               className="form-control"
               id="name"
-              placeholder="Enter Name"
-              value={values.name}
+              placeholder="Enter Name" // lodash
+              value={values?.name}
               onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
           </div>
@@ -66,7 +67,7 @@ function Update() {
               className="form-control"
               id="username"
               placeholder="Enter Username"
-              value={values.username}
+              value={values?.username}
               onChange={(e) =>
                 setValues({ ...values, username: e.target.value })
               }
@@ -81,7 +82,7 @@ function Update() {
               className="form-control"
               id="email"
               placeholder="Enter Email"
-              value={values.email}
+              value={values?.email}
               onChange={(e) => setValues({ ...values, email: e.target.value })}
             />
           </div>
@@ -94,7 +95,7 @@ function Update() {
               className="form-control"
               id="phone"
               placeholder="Enter Phone"
-              value={values.phone}
+              value={values?.phone}
               onChange={(e) => setValues({ ...values, phone: e.target.value })}
             />
           </div>

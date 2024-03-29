@@ -60,7 +60,7 @@ function Home() {
       const columnWidth = gridWidth / visibleColumns.length;
 
       visibleColumns.forEach((column) => {
-        gridApi.current.setColumnWidth(column.field, columnWidth);
+        gridApi.current?.setColumnWidth(column.field, columnWidth);
       });
     }
   }, [colDefs]);
@@ -89,7 +89,7 @@ function Home() {
   };
 
   const visibleColDefs = colDefs.filter(
-    (column) => userpreferencemap[column.field]
+    (column) => userpreferencemap[column.field]===true
   );
 
   return (

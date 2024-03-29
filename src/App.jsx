@@ -11,7 +11,6 @@ import GetidEdit from './GetidEdit'
 import GetidDelete from './GetidDelete'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <BrowserRouter>

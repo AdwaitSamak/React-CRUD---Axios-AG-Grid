@@ -2,8 +2,8 @@
   "users": [
     {
       "id": "1",
-      "name": "Adwait Samak",
-      "username": "adsamak",
+      "name": "Adwait Samak New",
+      "username": "adsamak 123",
       "email": "adwait@gmail.com",
       "phone": "7757091299"
     },
@@ -36,11 +36,25 @@
       "phone": "12345"
     },
     {
-      "id": 6,
-      "name": "Demo User2",
-      "username": "demo2",
+      "id": "6",
+      "name": "Demo User23",
+      "username": "demo23",
       "email": "new@gmail.com",
       "phone": "1234"
+    },
+    {
+      "id": "7",
+      "name": "Adwait",
+      "username": "adsamak",
+      "email": "adwait@nice.com",
+      "phone": "7757091299"
+    },
+    {
+      "id": "9",
+      "name": "AA",
+      "username": "aa",
+      "email": "aaa",
+      "phone": "123456"
     }
   ]
 }
