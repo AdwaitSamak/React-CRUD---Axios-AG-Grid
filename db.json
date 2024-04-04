@@ -37,24 +37,24 @@
     },
     {
       "id": "6",
-      "name": "Demo User23",
-      "username": "demo23",
-      "email": "new@gmail.com",
-      "phone": "1234"
+      "name": "hij",
+      "username": "hij",
+      "email": "xscv",
+      "phone": "123456"
     },
     {
       "id": "7",
-      "name": "Adwait",
-      "username": "adsamak",
-      "email": "adwait@nice.com",
-      "phone": "7757091299"
+      "name": "demmoooo",
+      "username": "demmmmooo",
+      "email": "demoooo",
+      "phone": "123456"
     },
     {
-      "id": "9",
-      "name": "AA",
-      "username": "aa",
-      "email": "aaa",
-      "phone": "123456"
+      "id": 8,
+      "name": "ok",
+      "username": "ok",
+      "email": "ok",
+      "phone": "1234"
     }
   ]
 }
