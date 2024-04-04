@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 function Create() {
   useEffect(() => {
     axios.get("http://localhost:3000/users").then((res) => {
-      const len = res.data.length + 1;
+      const len = String(res.data.length + 1);
       setValues((prev) => ({
         ...prev,
         id: len,
