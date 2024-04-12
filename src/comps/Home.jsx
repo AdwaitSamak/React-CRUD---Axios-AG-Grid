@@ -32,7 +32,7 @@ function Home() {
       headerName: "Select",
       headerCheckboxSelection: true,
       checkboxSelection: true,
-      width: 110,
+      width: 100,
     },
     {
       headerName: "Actions",
@@ -45,6 +45,7 @@ function Home() {
     { headerName: "Username", field: "username", width: 150 },
     { headerName: "Email", field: "email", width: 150 },
     { headerName: "Phone", field: "phone", width: 150 },
+    { headerName: "Marks", field: "marks", width: 150 },
   ];
 
   const onGridReady = (params) => {
@@ -148,19 +149,7 @@ function Home() {
         style={{ width: "100%" }}
       >
         <div className="d-flex gap-5 h-100">
-          <Dropdown className="">
-            <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
-              Actions
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={handlereadentry}>Read</Dropdown.Item>
-              <Dropdown.Item href={`/update/${selectedrowid[0]}`}>
-                Edit
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <button onClick={handlereadentry} className="btn btn-primary">Read</button>
         </div>
 
         <div className="table-responsive d-flex justify-content-end gap-3">
