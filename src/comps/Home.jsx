@@ -6,46 +6,48 @@ import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the 
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import ButtonComp from "./ButtonComp";
+import { SlOptionsVertical } from "react-icons/sl";
+import { IoMdAdd } from "react-icons/io";
+import { Tooltip } from "react-tooltip";
+import { BiSolidHide } from "react-icons/bi";
+import { MdSave } from "react-icons/md";
 
 function Home() {
   let gridApi = useRef(null);
   const [selectedRows, setSelectedRows] = useState([]); // State to store selected rows
   const [showPreferences, setShowPreferences] = useState(false);
   const [userpreferencemap, setUserpreferencemap] = useState({ select: true });
-  const [selectedrowid, setSelectedrowid] = useState([]);
+  const [selectedrowid, setSelectedrowid] = useState(null);
   const [data, setData] = useState([]);
-  const [showreadoption, setshowreadoption] = useState(false);
+  const [isrowselected, setisrowselected] = useState(false);
 
   useEffect(() => {
-    if (selectedRows) {
-      const arr = [];
-      selectedRows.forEach((val) => {
-        arr.push(val.id);
-      });
-      setSelectedrowid(arr);
-      // console.log(arr);
+    if (selectedRows && selectedRows.length > 0) {
+      let row = selectedRows[0];
+      // console.log(row.id);
+      setSelectedrowid(row.id);
+      setisrowselected(true);
     }
   }, [selectedRows]);
 
   const colDefs = [
-    {
-      headerName: "Select",
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      width: 100,
-    },
+    // {
+    //   headerName: "Select",
+    //   headerCheckboxSelection: true,
+    //   checkboxSelection: true,
+    //   width: 100,
+    // },
+    { headerName: "Id", field: "id", width: 150 },
+    { headerName: "Name", field: "name", width: 150 },
+    { headerName: "Username", field: "username", width: 150 },
+    { headerName: "Email", field: "email", width: 150 },
+    { headerName: "Phone", field: "phone", width: 150 },
     {
       headerName: "Actions",
       width: 150,
       cellRenderer: ButtonComp,
       cellRendererParams: (params) => ({ rowid: params.data.id }),
     },
-    { headerName: "Id", field: "id", width: 150 },
-    { headerName: "Name", field: "name", width: 150 },
-    { headerName: "Username", field: "username", width: 150 },
-    { headerName: "Email", field: "email", width: 150 },
-    { headerName: "Phone", field: "phone", width: 150 },
-    { headerName: "Marks", field: "marks", width: 150 },
   ];
 
   const onGridReady = (params) => {
@@ -115,21 +117,6 @@ function Home() {
     }));
   };
 
-  const handleDelete = () => {
-    const confirm = window.confirm("Would you like to delete this record?");
-    const num = selectedrowid[0];
-    console.log(num);
-    console.log(typeof num);
-    if (confirm) {
-      axios
-        .delete(`http://localhost:3000/users/${num}`)
-        .then((res) => {
-          location.reload();
-        })
-        .catch((error) => console.log(error));
-    }
-  };
-
   const handlereadentry = (e) => {
     e.preventDefault();
     setshowreadoption((prev) => !prev);
@@ -146,15 +133,18 @@ function Home() {
     >
       <div
         className="w-80 rounded bg-white border shadow p-4 h-100"
-        style={{ width: "100%" }}
+        style={{ width: "100%"}}
       >
-        <div className="d-flex gap-5 h-100">
-          <button onClick={handlereadentry} className="btn btn-primary">Read</button>
-        </div>
-
         <div className="table-responsive d-flex justify-content-end gap-3">
-          <Link to="/create" className="btn btn-success mb-3 ">
-            Add User
+          <Link
+            to="/create"
+            className="btn btn-success mb-3 btn-sm"
+            data-tooltip-id="my-tooltip"
+            data-tooltip-content="Add Record"
+            data-tooltip-place="top"
+          >
+            <IoMdAdd />
+            <Tooltip id="my-tooltip" />
           </Link>
         </div>
         <div className="d-flex gap-5 justify-content-end">
@@ -166,26 +156,26 @@ function Home() {
               rowData={data}
               columnDefs={visibleColDefs}
               onGridReady={onGridReady}
-              // suppressHorizontalScroll={true}
-              rowSelection="multiple"
+              rowSelection="single"
               onSelectionChanged={(event) => {
                 setSelectedRows(event.api.getSelectedRows());
-                // console.log(selectedRows);
               }}
+              className="w-100 h-100"
             />
           </div>
           <div className="d-flex flex-column gap-2">
             <Dropdown>
-              <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
-                Preferences
+              <Dropdown.Toggle
+                className="btn btn-sm"
+                onClick={handlePreferences}
+                data-tooltip-id="my-tooltip4"
+                data-tooltip-content="Preferences"
+                data-tooltip-place="bottom"
+              >
+                <SlOptionsVertical />
+                <Tooltip id="my-tooltip4" />
+                {/* for hover effect */}
               </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={handlePreferences}>
-                  Hide Columns
-                </Dropdown.Item>
-                <Dropdown.Item onClick={savepreferences}>Save</Dropdown.Item>
-              </Dropdown.Menu>
             </Dropdown>
             {showPreferences && (
               <div className="d-flex gap-2 flex-column align-items-start">
@@ -194,10 +184,7 @@ function Home() {
                     <input
                       type="checkbox"
                       checked={userpreferencemap[column.field]}
-                      disabled={
-                        column.headerName === "Select" ||
-                        column.headerName === "Actions"
-                      }
+                      disabled={column.headerName === "Actions"}
                       onChange={(e) =>
                         handleOnChangeCheckbox(column.field, e.target.checked)
                       }
@@ -205,11 +192,21 @@ function Home() {
                     {column.headerName}
                   </label>
                 ))}
+                <button
+                  onClick={savepreferences}
+                  className="btn btn-lg"
+                  data-tooltip-id="save-tooltip"
+                  data-tooltip-content="Save Preferences"
+                  data-tooltip-place="bottom"
+                >
+                  <MdSave />
+                  <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
+                </button>
               </div>
             )}
           </div>
         </div>
-        {showreadoption && (
+        {isrowselected && (
           <div className="d-flex w-100 vh-100 justify-content-center align-items-center gap-3">
             <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
               <h3>Details of the User</h3>
@@ -227,10 +224,10 @@ function Home() {
               </div>
             </div>
             <button
-              className="btn btn-primary"
-              onClick={(e) => setshowreadoption((prev) => !prev)}
+              className="btn btn-lg"
+              onClick={(e) => setisrowselected(false)}
             >
-              Hide
+              <BiSolidHide />
             </button>
           </div>
         )}

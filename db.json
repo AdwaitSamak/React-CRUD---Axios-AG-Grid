@@ -5,72 +5,70 @@
       "name": "Adwait Samak New",
       "username": "adsamak 123",
       "email": "adwait@gmail.com",
-      "phone": "7757091299",
-      "marks": "100"
+      "phone": "7757091299"
     },
     {
       "id": "2",
       "name": "Ayush Wadalkar",
       "username": "ayush",
       "email": "ayush@gmail.com",
-      "phone": "9373903191",
-      "marks": "100"
+      "phone": "9373903192"
     },
     {
       "id": "3",
       "name": "Demo User",
       "username": "demo",
       "email": "demo@gmail.com",
-      "phone": "0123456789",
-      "marks": "100"
+      "phone": "0123456789"
     },
     {
       "id": "4",
       "name": "New",
       "username": "new",
       "email": "new@gmail.com",
-      "phone": "1234",
-      "marks": "100"
+      "phone": "1234"
     },
     {
       "id": "5",
       "name": "n2",
       "username": "n2",
       "email": "n2@gmail",
-      "phone": "12345",
-      "marks": "100"
+      "phone": "12345"
     },
     {
       "id": "6",
       "name": "hij",
       "username": "hij",
       "email": "xscv",
-      "phone": "123456",
-      "marks": "100"
+      "phone": "123456"
     },
     {
       "id": "7",
       "name": "demmoooo",
       "username": "demmmmooo",
       "email": "demoooo",
-      "phone": "123456",
-      "marks": "100"
+      "phone": "123456"
     },
     {
       "id": "8",
-      "name": "Demo User2",
-      "username": "demo2",
-      "email": "new@gmail.com",
-      "phone": "8263903113",
-      "marks": "100"
-    },
-    {
-      "id": "9",
       "name": "New",
       "username": "new",
       "email": "new@gmail.com",
-      "phone": "1234567889",
-      "marks": "100"
+      "phone": "8263903113"
+    },
+    {
+      "id": "9",
+      "name": "ok",
+      "username": "ok",
+      "email": "ok",
+      "phone": "12345"
+    },
+    {
+      "id": "10",
+      "name": "Demo User2",
+      "username": "demo2",
+      "email": "demo2@gmail.com",
+      "phone": "123456"
     }
   ]
 }
