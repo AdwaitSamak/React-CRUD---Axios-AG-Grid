@@ -23,7 +23,7 @@ function ButtonComp(props) {
     }
   };
   return (
-    <div className="d-flex gap-2 mt-2 mb-1 justify-content-center">
+    <div className="d-flex gap-2 justify-content-center">
       <Link to={`/update/${rowid}`} className="btn">
         <CiEdit
           data-tooltip-id="edit-tooltip"

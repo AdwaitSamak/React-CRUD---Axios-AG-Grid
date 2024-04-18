@@ -117,121 +117,108 @@ function Home() {
     }));
   };
 
-  const handlereadentry = (e) => {
-    e.preventDefault();
-    setshowreadoption((prev) => !prev);
-  };
-
   const visibleColDefs = colDefs.filter(
     (column) => userpreferencemap[column.field] === true
   );
 
   return (
-    <div
-      className="d-flex bg-light m-4 p-2 h-100 w-99 flex-row"
-      style={{ height: "100vh" }}
-    >
-      <div
-        className="w-80 rounded bg-white border shadow p-4 h-100"
-        style={{ width: "100%"}}
+    <div className="d-flex bg-light m-3 p-2 h-100 flex-column border shadow rounded-3">
+      <Link
+        to="/create"
+        className="btn btn-success mb-3 btn-sm"
+        style={{ width: "30px" }}
+        data-tooltip-id="my-tooltip"
+        data-tooltip-content="Add Record"
+        data-tooltip-place="top"
       >
-        <div className="table-responsive d-flex justify-content-end gap-3">
-          <Link
-            to="/create"
-            className="btn btn-success mb-3 btn-sm"
-            data-tooltip-id="my-tooltip"
-            data-tooltip-content="Add Record"
-            data-tooltip-place="top"
-          >
-            <IoMdAdd />
-            <Tooltip id="my-tooltip" />
-          </Link>
+        <IoMdAdd />
+        <Tooltip id="my-tooltip" />
+      </Link>
+      
+      <div className="d-flex gap-3 justify-content-end">
+        <div
+          className="ag-theme-quartz"
+          style={{ height: "83vh", width: "89%" }}
+        >
+          <AgGridReact
+            rowData={data}
+            columnDefs={visibleColDefs}
+            onGridReady={onGridReady}
+            rowSelection="single"
+            onSelectionChanged={(event) => {
+              setSelectedRows(event.api.getSelectedRows());
+            }}
+            className="w-100 h-100"
+          />
         </div>
-        <div className="d-flex gap-5 justify-content-end">
-          <div
-            className="ag-theme-quartz"
-            style={{ height: "70vh", width: "85%" }}
-          >
-            <AgGridReact
-              rowData={data}
-              columnDefs={visibleColDefs}
-              onGridReady={onGridReady}
-              rowSelection="single"
-              onSelectionChanged={(event) => {
-                setSelectedRows(event.api.getSelectedRows());
-              }}
-              className="w-100 h-100"
-            />
-          </div>
-          <div className="d-flex flex-column gap-2">
-            <Dropdown>
-              <Dropdown.Toggle
-                className="btn btn-sm"
-                onClick={handlePreferences}
-                data-tooltip-id="my-tooltip4"
-                data-tooltip-content="Preferences"
+        <div className="d-flex flex-column gap-3 ">
+          <Dropdown>
+            <Dropdown.Toggle
+              className="btn btn-sm"
+              onClick={handlePreferences}
+              data-tooltip-id="my-tooltip4"
+              data-tooltip-content="Preferences"
+              data-tooltip-place="bottom"
+            >
+              <SlOptionsVertical />
+              <Tooltip id="my-tooltip4" />
+              {/* for hover effect */}
+            </Dropdown.Toggle>
+          </Dropdown>
+          {showPreferences && (
+            <div className="d-flex gap-2 flex-column align-items-left justify-content-center">
+              {colDefs.map((column) => (
+                <label key={column.headerName.toLowerCase()}>
+                  <input
+                    type="checkbox"
+                    checked={userpreferencemap[column.field]}
+                    disabled={column.headerName === "Actions"}
+                    onChange={(e) =>
+                      handleOnChangeCheckbox(column.field, e.target.checked)
+                    }
+                  />
+                  {column.headerName}
+                </label>
+              ))}
+              <button
+                onClick={savepreferences}
+                className="btn btn-lg"
+                data-tooltip-id="save-tooltip"
+                data-tooltip-content="Save Preferences"
                 data-tooltip-place="bottom"
               >
-                <SlOptionsVertical />
-                <Tooltip id="my-tooltip4" />
-                {/* for hover effect */}
-              </Dropdown.Toggle>
-            </Dropdown>
-            {showPreferences && (
-              <div className="d-flex gap-2 flex-column align-items-start">
-                {colDefs.map((column) => (
-                  <label key={column.headerName.toLowerCase()}>
-                    <input
-                      type="checkbox"
-                      checked={userpreferencemap[column.field]}
-                      disabled={column.headerName === "Actions"}
-                      onChange={(e) =>
-                        handleOnChangeCheckbox(column.field, e.target.checked)
-                      }
-                    />
-                    {column.headerName}
-                  </label>
-                ))}
-                <button
-                  onClick={savepreferences}
-                  className="btn btn-lg"
-                  data-tooltip-id="save-tooltip"
-                  data-tooltip-content="Save Preferences"
-                  data-tooltip-place="bottom"
-                >
-                  <MdSave />
-                  <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-        {isrowselected && (
-          <div className="d-flex w-100 vh-100 justify-content-center align-items-center gap-3">
-            <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
-              <h3>Details of the User</h3>
-              <div className="mb-2">
-                <strong>Name: {selectedRows[0].name}</strong>
-              </div>
-              <div className="mb-2">
-                <strong>Username: {selectedRows[0].username}</strong>
-              </div>
-              <div className="mb-2">
-                <strong>Email: {selectedRows[0].email}</strong>
-              </div>
-              <div className="mb-2">
-                <strong>Phone: {selectedRows[0].phone}</strong>
-              </div>
+                <MdSave />
+                <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
+              </button>
             </div>
-            <button
-              className="btn btn-lg"
-              onClick={(e) => setisrowselected(false)}
-            >
-              <BiSolidHide />
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
+      {isrowselected && (
+        <div className="d-flex w-100 vh-100 justify-content-center align-items-center gap-3">
+          <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
+            <h3>Details of the User</h3>
+            <div className="mb-2">
+              <strong>Name: {selectedRows[0].name}</strong>
+            </div>
+            <div className="mb-2">
+              <strong>Username: {selectedRows[0].username}</strong>
+            </div>
+            <div className="mb-2">
+              <strong>Email: {selectedRows[0].email}</strong>
+            </div>
+            <div className="mb-2">
+              <strong>Phone: {selectedRows[0].phone}</strong>
+            </div>
+          </div>
+          <button
+            className="btn btn-lg"
+            onClick={(e) => setisrowselected(false)}
+          >
+            <BiSolidHide />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
