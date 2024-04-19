@@ -31,12 +31,6 @@ function Home() {
   }, [selectedRows]);
 
   const colDefs = [
-    // {
-    //   headerName: "Select",
-    //   headerCheckboxSelection: true,
-    //   checkboxSelection: true,
-    //   width: 100,
-    // },
     { headerName: "Id", field: "id", width: 150 },
     { headerName: "Name", field: "name", width: 150 },
     { headerName: "Username", field: "username", width: 150 },

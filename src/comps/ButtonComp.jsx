@@ -6,9 +6,9 @@ import { MdDelete } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 
 function ButtonComp(props) {
-  console.log(props);
+  // console.log(props);
   const rowid = props.rowid;
-  //   console.log(rowid);
+    console.log(rowid);
   const handledelete = (e) => {
     e.preventDefault();
     console.log(rowid);
