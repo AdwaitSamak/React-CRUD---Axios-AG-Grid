@@ -8,7 +8,7 @@ import { Tooltip } from "react-tooltip";
 function ButtonComp(props) {
   // console.log(props);
   const rowid = props.rowid;
-    console.log(rowid);
+  console.log(rowid);
   const handledelete = (e) => {
     e.preventDefault();
     console.log(rowid);
@@ -38,7 +38,7 @@ function ButtonComp(props) {
           data-tooltip-content="Delete Record"
           data-tooltip-place="right"
         />
-        <Tooltip id="my-tooltip3"/>
+        <Tooltip id="my-tooltip3" />
       </button>
     </div>
   );

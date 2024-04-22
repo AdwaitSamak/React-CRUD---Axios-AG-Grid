@@ -68,7 +68,7 @@
       "name": "Demo User2",
       "username": "demo2",
       "email": "demo2@gmail.com",
-      "phone": "123456"
+      "phone": "12345678"
     },
     {
       "id": "11",
@@ -80,9 +80,9 @@
     {
       "id": "12",
       "name": "hij",
-      "username": "ok",
+      "username": "new",
       "email": "xscv",
-      "phone": "1234"
+      "phone": "`12e32r314"
     }
   ]
 }

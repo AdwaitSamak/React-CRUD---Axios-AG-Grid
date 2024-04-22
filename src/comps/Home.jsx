@@ -10,7 +10,6 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { IoMdAdd } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { BiSolidHide } from "react-icons/bi";
-import { MdSave } from "react-icons/md";
 
 function Home() {
   let gridApi = useRef(null);
@@ -85,7 +84,7 @@ function Home() {
         gridApi.current?.setColumnWidth(column.field, columnWidth);
       });
     }
-  }, [colDefs]);
+  }, [colDefs, userpreferencemap]);
 
   const handlePreferences = () => {
     if (!showPreferences) {
@@ -116,7 +115,10 @@ function Home() {
   );
 
   return (
-    <div className="d-flex bg-light m-3 p-2 h-100 flex-column border shadow rounded-3">
+    <div
+      className="d-flex bg-light m-3 p-2 flex-column border shadow rounded-3 justify-content-between"
+      style={{ height: "100vh-8px" }}
+    >
       <Link
         to="/create"
         className="btn btn-success mb-3 btn-sm"
@@ -128,11 +130,11 @@ function Home() {
         <IoMdAdd />
         <Tooltip id="my-tooltip" />
       </Link>
-      
+
       <div className="d-flex gap-3 justify-content-end">
         <div
           className="ag-theme-quartz"
-          style={{ height: "83vh", width: "89%" }}
+          style={{ height: "50vh", width: "89%" }}
         >
           <AgGridReact
             rowData={data}
@@ -143,12 +145,14 @@ function Home() {
               setSelectedRows(event.api.getSelectedRows());
             }}
             className="w-100 h-100"
+            pagination={true}
+            paginationAutoPageSize={true}
           />
         </div>
         <div className="d-flex flex-column gap-3 ">
           <Dropdown>
             <Dropdown.Toggle
-              className="btn btn-sm"
+              className="btn btn-sm btn-dark"
               onClick={handlePreferences}
               data-tooltip-id="my-tooltip4"
               data-tooltip-content="Preferences"
@@ -176,12 +180,12 @@ function Home() {
               ))}
               <button
                 onClick={savepreferences}
-                className="btn btn-lg"
+                className="btn btn-dark mt-3"
                 data-tooltip-id="save-tooltip"
                 data-tooltip-content="Save Preferences"
                 data-tooltip-place="bottom"
               >
-                <MdSave />
+                Save
                 <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
               </button>
             </div>
@@ -189,9 +193,9 @@ function Home() {
         </div>
       </div>
       {isrowselected && (
-        <div className="d-flex w-100 vh-100 justify-content-center align-items-center gap-3">
-          <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
-            <h3>Details of the User</h3>
+        <div className="d-flex w-100 h-50 justify-content-center gap-3 pt-3 pb-2">
+          <div className="border bg-white shadow px-5 pt-3 pb-3 rounded" style={{width:"88%"}}>
+            <h3>User Details</h3>
             <div className="mb-2">
               <strong>Name: {selectedRows[0].name}</strong>
             </div>
@@ -205,12 +209,12 @@ function Home() {
               <strong>Phone: {selectedRows[0].phone}</strong>
             </div>
           </div>
-          <button
+          {/* <button
             className="btn btn-lg"
             onClick={(e) => setisrowselected(false)}
           >
             <BiSolidHide />
-          </button>
+          </button> */}
         </div>
       )}
     </div>

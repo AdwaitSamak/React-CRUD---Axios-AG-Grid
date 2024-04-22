@@ -44,6 +44,7 @@ function Update() {
     <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light ">
       <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
         <h1>Update User</h1>
+        {/* <hr/> */}
         <form onSubmit={handleUpdateform}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
