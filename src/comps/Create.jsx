@@ -18,6 +18,7 @@ function Create() {
     username: "",
     email: "",
     phone: "",
+    country: ""
   });
 
   const navigate = useNavigate();
@@ -84,6 +85,18 @@ function Create() {
               id="phone"
               placeholder="Enter Phone"
               onChange={(e) => setValues({ ...values, phone: e.target.value })}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="country" className="form-label">
+              Country
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="country"
+              placeholder="Enter Country"
+              onChange={(e) => setValues({ ...values, country: e.target.value })}
             />
           </div>
           <button type="submit" className="btn btn-success">

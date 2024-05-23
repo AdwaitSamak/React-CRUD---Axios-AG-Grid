@@ -6,7 +6,6 @@ import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
-import Dropdown from "react-bootstrap/Dropdown";
 import ButtonComp from "./ButtonComp";
 import { SlOptionsVertical } from "react-icons/sl";
 import { IoMdAdd } from "react-icons/io";
@@ -20,7 +19,6 @@ ModuleRegistry.registerModules([SetFilterModule]);
 function Home() {
   let gridApi = useRef(null);
   const [selectedRows, setSelectedRows] = useState([]); // State to store selected rows
-  const [showPreferences, setShowPreferences] = useState(false);
   const [userpreferencemap, setUserpreferencemap] = useState({ select: true });
   const [selectedrowid, setSelectedrowid] = useState(null);
   const [data, setData] = useState([]);
@@ -28,7 +26,6 @@ function Home() {
   const [preferencedrawer, setPreferencedrawer] = useState(false);
 
   const NameFilterParams = {
-    // filterOptions: ["contains"],
     trimInput: true,
     caseSensitive: true,
     buttons: ["apply", "reset", "clear"],
@@ -48,7 +45,6 @@ function Home() {
     {
       headerName: "Id",
       field: "id",
-      width: 150,
       filter: "agTextColumnFilter",
       filterParams: {
         filterOptions: ["equals"],
@@ -62,7 +58,6 @@ function Home() {
     {
       headerName: "Name",
       field: "name",
-      width: 150,
       filter: "agTextColumnFilter",
       filterParams: NameFilterParams,
       floatingFilter: true,
@@ -72,7 +67,6 @@ function Home() {
     {
       headerName: "Username",
       field: "username",
-      width: 150,
       filter: "agTextColumnFilter",
       filterParams: {
         filterOptions: ["contains"],
@@ -86,7 +80,6 @@ function Home() {
     {
       headerName: "Email",
       field: "email",
-      width: 150,
       filter: "agTextColumnFilter",
       filterParams: {
         filterOptions: ["contains"],
@@ -100,7 +93,6 @@ function Home() {
     {
       headerName: "Phone",
       field: "phone",
-      width: 150,
       filter: "agTextColumnFilter",
       floatingFilter: true,
       suppressHeaderMenuButton: true,
@@ -113,7 +105,6 @@ function Home() {
     {
       headerName: "Country",
       field: "country",
-      width: 150,
       filter: "agTextColumnFilter",
       floatingFilter: true,
       suppressHeaderMenuButton: true,
@@ -125,7 +116,6 @@ function Home() {
     },
     {
       headerName: "Actions",
-      width: 150,
       cellRenderer: ButtonComp,
       cellRendererParams: (params) => ({ rowid: params.data.id }),
       sortable: false,
@@ -197,7 +187,7 @@ function Home() {
 
   const gridref = useRef(); //gives reference to grid, wont change between renders
 
-  const onFilterTextBoxChanged = useCallback(() => {
+  const onFilterTextBoxChanged = useCallback(() => {         //for quixk filter outside the grid
     gridref.current.api.setGridOption(
       //uses the grid's ref to filter data in the grid
       "quickFilterText",
@@ -209,8 +199,9 @@ function Home() {
     setPreferencedrawer(newstate); //will open or close depending on true or false of newstate
   };
 
-  const DrawerList = (
+  const DrawerList = (              //contents fo the drawer
     <div className="d-flex gap-2 flex-column align-items-left justify-content-center p-3 m-3">
+      <h4>Show Columns</h4>
       {colDefs.map((column) => (
         <label key={column.headerName.toLowerCase()}>
           <input
@@ -240,7 +231,7 @@ function Home() {
   return (
     <div
       className="d-flex bg-light m-3 p-3 mt-3 flex-column border shadow rounded-3 justify-content-between"
-      style={{ height: "100vh-8px" }}
+      style={{ height: "80%" }}
     >
       <div className="d-flex mt-2 flex-row-reverse" style={{ gap: "941px" }}>
         <Link
@@ -282,14 +273,15 @@ function Home() {
             className="w-100 h-100;"
             pagination={true}
             paginationAutoPageSize={true}
+            defaultColDef={{flex:1}}
           />
         </div>
-        <div className="d-flex flex-column gap-3 ">
+        <div className="d-flex flex-column gap-3 ">             
           <button
             onClick={() => togglepreferencesdrawer(true)}
             className="btn btn-sm btn-outline-dark"
           >
-            <SlOptionsVertical />
+            <SlOptionsVertical />                   
           </button>
           <Drawer
             open={preferencedrawer}
@@ -298,39 +290,12 @@ function Home() {
           >
             {DrawerList}
           </Drawer>
-          {showPreferences && (
-            <div className="d-flex gap-2 flex-column align-items-left justify-content-center">
-              {colDefs.map((column) => (
-                <label key={column.headerName.toLowerCase()}>
-                  <input
-                    type="checkbox"
-                    checked={userpreferencemap[column.field]}
-                    disabled={column.headerName === "Actions"}
-                    onChange={(e) =>
-                      handleOnChangeCheckbox(column.field, e.target.checked)
-                    }
-                  />
-                  {column.headerName}
-                </label>
-              ))}
-              <button
-                onClick={savepreferences}
-                className="btn btn-outline-dark mt-3"
-                data-tooltip-id="save-tooltip"
-                data-tooltip-content="Save Preferences"
-                data-tooltip-place="bottom"
-              >
-                Save
-                <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
-              </button>
-            </div>
-          )}
         </div>
       </div>
       {isrowselected && (
         <div className="d-flex w-100 h-50 justify-content-center gap-3 pt-3 pb-2">
           <div
-            className="border bg-white shadow px-5 pt-3 pb-3 rounded"
+            className="border bg-white px-5 pt-3 pb-3 rounded"
             style={{ width: "92%"}}
           >
             <h3>User Details</h3>

@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<Create />} />
-        <Route path="/update/:id" element={<Update />} />
+        {/* <Route path="/update/:id" element={<Update />} /> */}
         {/* we will pass an id so that we can update the record on that id */}
         {/* <Route path="/read/:id" element={<Read />} /> */}
       </Routes>

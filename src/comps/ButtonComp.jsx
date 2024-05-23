@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Tooltip from "@mui/material/Tooltip";
-import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import { Dialog, DialogActions, DialogTitle, Drawer } from "@mui/material";
 
 function ButtonComp(props) {
   // console.log(props);
@@ -12,6 +12,7 @@ function ButtonComp(props) {
   console.log(rowid);
 
   const [modalopen, setModalOpen] = useState(false);
+  const [updatedrawer, setupdatedrawer] = useState(false);
 
   const handleClickOpen = () => {
     setModalOpen(true);
@@ -20,6 +21,29 @@ function ButtonComp(props) {
   const handleClose = () => {
     setModalOpen(false);
   };
+
+  const [values, setValues] = useState({
+    id: rowid,
+    name: "",
+    username: "",
+    email: "",
+    phone: "",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/users?id=" + rowid
+        );
+        console.log(response.data[0]);
+        setValues(response.data[0]);
+      } catch (error) {
+        console.log("Error in fetching data", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handledelete = (e) => {
     e.preventDefault();
@@ -31,13 +55,118 @@ function ButtonComp(props) {
       })
       .catch((error) => console.log(error));
   };
+
+  const toggleupdatedrawer = (newoption) => {
+    setupdatedrawer(newoption);
+  };
+
+  const handleUpdateform = (e) => {
+    e.preventDefault();
+    // console.log(id);
+    const url = `http://localhost:3000/users/${rowid}`;
+    axios
+      .put(url, values)
+      .then((res) => location.reload())
+      .catch((error) => console.log("Error updating user:", error));
+  };
+
+  const DrawerList = (
+    <div
+      className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light"
+      style={{ width: "500px" }}
+    >
+      <div
+        className="m-4 border bg-white shadow px-5 pt-3 pb-5 rounded"
+        style={{ width: "400px" }}
+      >
+        <h1>Update User</h1>
+        {/* <hr/> */}
+        <form onSubmit={handleUpdateform} style={{ width: "300px" }}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              placeholder="Enter Name" // lodash
+              value={values?.name}
+              onChange={(e) => setValues({ ...values, name: e.target.value })}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              placeholder="Enter Username"
+              value={values?.username}
+              onChange={(e) =>
+                setValues({ ...values, username: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              placeholder="Enter Email"
+              value={values?.email}
+              onChange={(e) => setValues({ ...values, email: e.target.value })}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="phone" className="form-label">
+              Phone
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="phone"
+              placeholder="Enter Phone"
+              value={values?.phone}
+              onChange={(e) => setValues({ ...values, phone: e.target.value })}
+            />
+          </div>
+          <button type="submit" className="btn btn-outline-dark">
+            Submit
+          </button>
+          <Link to="/">
+            <button
+              type="submit"
+              className="btn btn-dark ms-3"
+              onClick={() => toggleupdatedrawer(false)}
+            >
+              Cancel
+            </button>
+          </Link>
+        </form>
+      </div>
+    </div>
+  );
+
   return (
     <div className="d-flex gap-2 justify-content-center">
       <Tooltip title="Edit">
-        <Link to={`/update/${rowid}`} className="btn">
+        <button onClick={() => toggleupdatedrawer(true)} className="btn">
           <CiEdit />
-        </Link>
+        </button>
       </Tooltip>
+      <Drawer
+        open={updatedrawer}
+        onClose={() => toggleupdatedrawer(false)}
+        anchor="right"
+      >
+        {DrawerList}
+      </Drawer>
       <Tooltip title="Delete">
         <button onClick={handleClickOpen} className="btn">
           <MdDelete />
@@ -47,8 +176,12 @@ function ButtonComp(props) {
       <Dialog open={modalopen} onClose={handleClose}>
         <DialogTitle>{"Do you want to delete this record?"}</DialogTitle>
         <DialogActions>
-          <button onClick={handleClose} className="px-3 border-1">No</button>
-          <button onClick={handledelete} className="px-3 border-1">Yes</button>
+          <button onClick={handleClose} className="px-3 border-1">
+            No
+          </button>
+          <button onClick={handledelete} className="px-3 border-1">
+            Yes
+          </button>
         </DialogActions>
       </Dialog>
     </div>
