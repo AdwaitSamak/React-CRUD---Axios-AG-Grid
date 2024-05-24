@@ -5,18 +5,22 @@ import Home from "./comps/Home";
 import Update from "./comps/Update";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function App() {
   return (
-    <BrowserRouter>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<Create />} />
-        {/* <Route path="/update/:id" element={<Update />} /> */}
+        {/* <Route path="/update/:id" element={<Update />} />  */}
         {/* we will pass an id so that we can update the record on that id */}
         {/* <Route path="/read/:id" element={<Read />} /> */}
       </Routes>
     </BrowserRouter>
+    </LocalizationProvider>
   );
 }
 

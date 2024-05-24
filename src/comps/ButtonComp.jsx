@@ -5,6 +5,8 @@ import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Tooltip from "@mui/material/Tooltip";
 import { Dialog, DialogActions, DialogTitle, Drawer } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 function ButtonComp(props) {
   // console.log(props);
@@ -72,12 +74,12 @@ function ButtonComp(props) {
 
   const DrawerList = (
     <div
-      className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light"
+      className="d-flex w-100 justify-content-center align-items-center bg-light"
       style={{ width: "500px" }}
     >
       <div
-        className="m-4 border bg-white shadow px-5 pt-3 pb-5 rounded"
-        style={{ width: "400px" }}
+        className=" border bg-white shadow px-5 pt-1 rounded"
+        style={{ width: "400px",  height: "640px", marginTop:"10px", marginLeft:"30px", marginRight:"30px" }}
       >
         <h1>Update User</h1>
         {/* <hr/> */}
@@ -136,6 +138,30 @@ function ButtonComp(props) {
               onChange={(e) => setValues({ ...values, phone: e.target.value })}
             />
           </div>
+          <div className="mb-3">
+            <label htmlFor="country" className="form-label">
+              Country
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="country"
+              placeholder="Enter Country"
+              value={values?.country}
+              onChange={(e) => setValues({ ...values, country: e.target.value })}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="dob" className="form-label">
+              Date of Birth
+            </label>
+            <DatePicker
+              id="dob"
+              className="form-control"
+              // value={values?.dob}
+              onChange={(newValue) => setValues({ ...values, dob: dayjs(newValue).format('DD-MM-YYYY') })}
+            />
+          </div>
           <button type="submit" className="btn btn-outline-dark">
             Submit
           </button>
@@ -156,7 +182,7 @@ function ButtonComp(props) {
   return (
     <div className="d-flex gap-2 justify-content-center">
       <Tooltip title="Edit">
-        <button onClick={() => toggleupdatedrawer(true)} className="btn">
+        <button onClick={(e) => toggleupdatedrawer(true)} className="btn">
           <CiEdit />
         </button>
       </Tooltip>

@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 function Create() {
   useEffect(() => {
@@ -18,7 +20,8 @@ function Create() {
     username: "",
     email: "",
     phone: "",
-    country: ""
+    country: "",
+    dob: "",
   });
 
   const navigate = useNavigate();
@@ -30,11 +33,11 @@ function Create() {
     );
   };
   return (
-    <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light ">
-      <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
+    <div className="d-flex w-100 pt-4 pb-4 justify-content-center align-items-center bg-light ">
+      <div className="w-50 border bg-white shadow px-5 pt-2 pb-3 rounded">
         <h1>Add User</h1>
         <form onSubmit={onhandleSubmit}>
-          <div className="mb-3">
+          <div className="mb-2">
             <label htmlFor="name" className="form-label">
               Name
             </label>
@@ -49,7 +52,7 @@ function Create() {
               }}
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-2">
             <label htmlFor="username" className="form-label">
               Username
             </label>
@@ -63,7 +66,7 @@ function Create() {
               }
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-2">
             <label htmlFor="email" className="form-label">
               Email
             </label>
@@ -75,7 +78,7 @@ function Create() {
               onChange={(e) => setValues({ ...values, email: e.target.value })}
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-2">
             <label htmlFor="phone" className="form-label">
               Phone
             </label>
@@ -87,7 +90,7 @@ function Create() {
               onChange={(e) => setValues({ ...values, phone: e.target.value })}
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-2">
             <label htmlFor="country" className="form-label">
               Country
             </label>
@@ -96,14 +99,26 @@ function Create() {
               className="form-control"
               id="country"
               placeholder="Enter Country"
-              onChange={(e) => setValues({ ...values, country: e.target.value })}
+              onChange={(e) =>
+                setValues({ ...values, country: e.target.value })
+              }
             />
           </div>
-          <button type="submit" className="btn btn-success">
+          <div className="mb-2">
+            <label htmlFor="dob" className="form-label">
+              Date of Birth
+            </label>
+            <DatePicker
+              id="dob"
+              className="form-control"
+              onChange={(newValue) => setValues({ ...values, dob: dayjs(newValue).format('DD-MM-YYYY') })}
+            />
+          </div>
+          <button type="submit" className="btn btn-outline-dark">
             Submit
           </button>
           <Link to="/">
-            <button type="submit" className="btn btn-danger ms-3">
+            <button type="submit" className="btn btn-dark ms-3">
               Cancel
             </button>
           </Link>

@@ -115,6 +115,22 @@ function Home() {
       unSortIcon: true,
     },
     {
+      headerName: "Date of Birth",
+      field: "dob",
+      unSortIcon: true,
+      filter: "agDateColumnFilter",
+      suppressHeaderMenuButton: true,
+      unSortIcon: true,
+      floatingFilter: true,
+      // suppressFloatingFilterButton: true,,
+      filterParams: {
+        browserDatePicker: true,
+        minValidYear: 1960,
+        maxValidYear: 2030,
+        buttons: ["reset", "apply"],
+      },
+    },
+    {
       headerName: "Actions",
       cellRenderer: ButtonComp,
       cellRendererParams: (params) => ({ rowid: params.data.id }),
@@ -187,7 +203,8 @@ function Home() {
 
   const gridref = useRef(); //gives reference to grid, wont change between renders
 
-  const onFilterTextBoxChanged = useCallback(() => {         //for quixk filter outside the grid
+  const onFilterTextBoxChanged = useCallback(() => {
+    //for quixk filter outside the grid
     gridref.current.api.setGridOption(
       //uses the grid's ref to filter data in the grid
       "quickFilterText",
@@ -199,34 +216,35 @@ function Home() {
     setPreferencedrawer(newstate); //will open or close depending on true or false of newstate
   };
 
-  const DrawerList = (              //contents fo the drawer
-    <div className="d-flex gap-2 flex-column align-items-left justify-content-center p-3 m-3">
-      <h4>Show Columns</h4>
-      {colDefs.map((column) => (
-        <label key={column.headerName.toLowerCase()}>
-          <input
-            type="checkbox"
-            checked={userpreferencemap[column.field]}
-            disabled={column.headerName === "Actions"}
-            onChange={(e) =>
-              handleOnChangeCheckbox(column.field, e.target.checked)
-            }
-          />
-          {column.headerName}
-        </label>
-      ))}
-      <button
-        onClick={savepreferences}
-        className="btn btn-outline-dark mt-3"
-        data-tooltip-id="save-tooltip"
-        data-tooltip-content="Save Preferences"
-        data-tooltip-place="bottom"
-      >
-        Save
-        <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
-      </button>
-    </div>
-  );
+  const DrawerList = //contents fo the drawer
+    (
+      <div className="d-flex gap-2 flex-column align-items-left justify-content-center p-3 m-3">
+        <h4>Show Columns</h4>
+        {colDefs.map((column) => (
+          <label key={column.headerName.toLowerCase()}>
+            <input
+              type="checkbox"
+              checked={userpreferencemap[column.field]}
+              disabled={column.headerName === "Actions"}
+              onChange={(e) =>
+                handleOnChangeCheckbox(column.field, e.target.checked)
+              }
+            />
+            {column.headerName}
+          </label>
+        ))}
+        <button
+          onClick={savepreferences}
+          className="btn btn-outline-dark mt-3"
+          data-tooltip-id="save-tooltip"
+          data-tooltip-content="Save Preferences"
+          data-tooltip-place="bottom"
+        >
+          Save
+          <Tooltip id="save-tooltip" style={{ fontSize: "12px" }} />
+        </button>
+      </div>
+    );
 
   return (
     <div
@@ -250,7 +268,7 @@ function Home() {
           <input
             type="text"
             id="filter-text-box"
-            placeholder="Filter..."
+            placeholder=" Filter..."
             onInput={onFilterTextBoxChanged}
           />
         </div>
@@ -273,15 +291,15 @@ function Home() {
             className="w-100 h-100;"
             pagination={true}
             paginationAutoPageSize={true}
-            defaultColDef={{flex:1}}
+            defaultColDef={{ flex: 1 }}
           />
         </div>
-        <div className="d-flex flex-column gap-3 ">             
+        <div className="d-flex flex-column gap-3 ">
           <button
             onClick={() => togglepreferencesdrawer(true)}
             className="btn btn-sm btn-outline-dark"
           >
-            <SlOptionsVertical />                   
+            <SlOptionsVertical />
           </button>
           <Drawer
             open={preferencedrawer}
@@ -296,7 +314,7 @@ function Home() {
         <div className="d-flex w-100 h-50 justify-content-center gap-3 pt-3 pb-2">
           <div
             className="border bg-white px-5 pt-3 pb-3 rounded"
-            style={{ width: "92%"}}
+            style={{ width: "92%" }}
           >
             <h3>User Details</h3>
             <div className="mb-2">
@@ -310,6 +328,12 @@ function Home() {
             </div>
             <div className="mb-2">
               <strong>Phone: {selectedRows[0].phone}</strong>
+            </div>
+            <div className="mb-2">
+              <strong>Country: {selectedRows[0].country}</strong>
+            </div>
+            <div className="mb-2">
+              <strong>Date of Birth: {selectedRows[0].dob}</strong>
             </div>
           </div>
         </div>
