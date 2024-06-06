@@ -7,7 +7,7 @@
       "email": "adwait@gmail.com",
       "phone": "7757091299",
       "country": "India",
-      "dob": "25-04-1970"
+      "dob": "30-05-2002"
     },
     {
       "id": "2",
@@ -107,15 +107,6 @@
       "phone": "12345",
       "country": "India",
       "dob": "23-12-2001"
-    },
-    {
-      "id": "13",
-      "name": "Adwait",
-      "username": "adwaits7",
-      "email": "adwait@nice.com",
-      "phone": "8767910499",
-      "country": "India",
-      "dob": "30-05-2002"
     }
   ]
 }
