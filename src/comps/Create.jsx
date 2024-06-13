@@ -33,12 +33,12 @@ function Create() {
     );
   };
   return (
-    <div className="d-flex w-100 pt-4 pb-4 justify-content-center align-items-center bg-light ">
+    <div className="d-flex w-100 py-4 justify-content-center align-items-center bg-light ">
       <div className="w-50 border bg-white shadow px-5 pt-2 pb-3 rounded">
         <h1>Add User</h1>
         <form onSubmit={onhandleSubmit}>
           <div className="mb-2">
-            <label htmlFor="name" className="form-label">
+            <label className="form-label">
               Name
             </label>
             <input
@@ -47,13 +47,12 @@ function Create() {
               id="name"
               placeholder="Enter Name"
               onChange={(e) => {
-                e.preventDefault();
                 setValues({ ...values, name: e.target.value });
               }}
             />
           </div>
           <div className="mb-2">
-            <label htmlFor="username" className="form-label">
+            <label className="form-label">
               Username
             </label>
             <input
@@ -67,7 +66,7 @@ function Create() {
             />
           </div>
           <div className="mb-2">
-            <label htmlFor="email" className="form-label">
+            <label className="form-label">
               Email
             </label>
             <input
@@ -79,7 +78,7 @@ function Create() {
             />
           </div>
           <div className="mb-2">
-            <label htmlFor="phone" className="form-label">
+            <label className="form-label">
               Phone
             </label>
             <input
@@ -91,7 +90,7 @@ function Create() {
             />
           </div>
           <div className="mb-2">
-            <label htmlFor="country" className="form-label">
+            <label className="form-label">
               Country
             </label>
             <input
@@ -105,7 +104,7 @@ function Create() {
             />
           </div>
           <div className="mb-2">
-            <label htmlFor="dob" className="form-label">
+            <label className="form-label">
               Date of Birth
             </label>
             <DatePicker

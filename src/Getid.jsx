@@ -4,8 +4,6 @@ function Getid() {
     const navigate=useNavigate();
     const [id,setId]=useState(0);
     const onhandleClick=(e)=>{
-        e.preventDefault();
-        // console.log(id);
         navigate(`/read/${id}`)
     }
   return (

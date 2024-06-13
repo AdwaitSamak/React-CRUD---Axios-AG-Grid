@@ -20,9 +20,7 @@ function Home() {
   let gridApi = useRef(null);
   const [selectedRows, setSelectedRows] = useState([]); // State to store selected rows
   const [userpreferencemap, setUserpreferencemap] = useState({ select: true });
-  const [selectedrowid, setSelectedrowid] = useState(null);
   const [data, setData] = useState([]);
-  const [isrowselected, setisrowselected] = useState(false);
   const [preferencedrawer, setPreferencedrawer] = useState(false);
 
   const NameFilterParams = {
@@ -31,15 +29,6 @@ function Home() {
     buttons: ["apply", "reset", "clear"],
     closeOnApply: true,
   };
-
-  useEffect(() => {
-    if (selectedRows && selectedRows.length > 0) {
-      let row = selectedRows[0];
-      // console.log(row.id);
-      setSelectedrowid(row.id);
-      setisrowselected(true);
-    }
-  }, [selectedRows]);
 
   const colDefs = [
     {
@@ -159,23 +148,25 @@ function Home() {
     if (storedPreferences) {
       setUserpreferencemap(JSON.parse(storedPreferences));
     } else {
-      const initialPreferences = {};
+      const initialPreferences = {}; //initially all column's fields are true, ie. every column must be visible
       colDefs.forEach((column) => {
         initialPreferences[column.field] = true;
       });
-      setUserpreferencemap(initialPreferences);
+      setUserpreferencemap(initialPreferences); //sets initial userpreference map
     }
   }, []);
 
   useEffect(() => {
     if (colDefs) {
       const visibleColumns = colDefs.filter(
+        //filter those columns for which user preference map shows true, i.e. they are not hidden
         (column) => userpreferencemap[column.field] === true
       );
       const gridWidth = document.querySelector(".ag-theme-quartz").clientWidth;
-      const columnWidth = gridWidth / visibleColumns.length;
+      const columnWidth = gridWidth / visibleColumns.length; //each visible columns gets this width
 
       visibleColumns.forEach((column) => {
+        //set width after columns are hidden, i.e preference map changes
         gridApi.current?.setColumnWidth(column.field, columnWidth);
       });
     }
@@ -191,6 +182,7 @@ function Home() {
   };
 
   const handleOnChangeCheckbox = (field, checked) => {
+    //if a checkbox is checked or unchecked, it sets it in the userpreference map
     setUserpreferencemap((prevPreferences) => ({
       ...prevPreferences,
       [field]: checked,
@@ -198,6 +190,7 @@ function Home() {
   };
 
   const visibleColDefs = colDefs.filter(
+    //filter those columns 3for whom the checkbox is selected, ie. userpreference map's field for that columns is true
     (column) => userpreferencemap[column.field] === true
   );
 
@@ -216,7 +209,7 @@ function Home() {
     setPreferencedrawer(newstate); //will open or close depending on true or false of newstate
   };
 
-  const DrawerList = //contents fo the drawer
+  const DrawerList = //contents fo the drawer   --- preferences drawer
     (
       <div className="d-flex gap-2 flex-column align-items-left justify-content-center p-3 m-3">
         <h4>Show Columns</h4>
@@ -224,7 +217,7 @@ function Home() {
           <label key={column.headerName.toLowerCase()}>
             <input
               type="checkbox"
-              checked={userpreferencemap[column.field]}
+              checked={userpreferencemap[column.field]} //initially all checkboxes checked.
               disabled={column.headerName === "Actions"}
               onChange={(e) =>
                 handleOnChangeCheckbox(column.field, e.target.checked)
@@ -233,7 +226,7 @@ function Home() {
             {column.headerName}
           </label>
         ))}
-        <button
+        <button // save preferences button
           onClick={savepreferences}
           className="btn btn-outline-dark mt-3"
           data-tooltip-id="save-tooltip"
@@ -252,7 +245,7 @@ function Home() {
       style={{ height: "80%" }}
     >
       <div className="d-flex mt-2 flex-row-reverse" style={{ gap: "941px" }}>
-        <Link
+        <Link //create button
           to="/create"
           className="btn btn-outline-dark mb-3 btn-sm"
           style={{ width: "30px", height: "30px" }}
@@ -264,8 +257,7 @@ function Home() {
           <Tooltip id="my-tooltip" />
         </Link>
         <div className="pb-3 m-lg-1">
-          {/* <span className="m-lg-">Filter: </span> */}
-          <input
+          <input // quick filter
             type="text"
             id="filter-text-box"
             placeholder=" Filter..."
@@ -279,14 +271,16 @@ function Home() {
           className="ag-theme-quartz"
           style={{ height: "55vh", width: "92%" }}
         >
-          <AgGridReact
+          <AgGridReact //grid
             ref={gridref}
             rowData={data}
             columnDefs={visibleColDefs}
             onGridReady={onGridReady}
             rowSelection="single"
-            onSelectionChanged={(event) => {
-              setSelectedRows(event.api.getSelectedRows());
+            onCellClicked={(event) => {
+              if (event.colDef.headerName !== "Actions") {
+                setSelectedRows([event.data]);
+              }
             }}
             className="w-100 h-100;"
             pagination={true}
@@ -302,21 +296,22 @@ function Home() {
             <SlOptionsVertical />
           </button>
           <Drawer
-            open={preferencedrawer}
-            onClose={() => togglepreferencesdrawer(false)}
+            open={preferencedrawer} //is true, it will open
+            onClose={() => togglepreferencesdrawer(false)} //sets preferencedrawer to false, close drawer
             anchor="right"
           >
             {DrawerList}
           </Drawer>
         </div>
       </div>
-      {isrowselected && (
+      {selectedRows.length !== 0 && ( //will only be visible if any row is selected
         <div className="d-flex w-100 h-50 justify-content-center gap-3 pt-3 pb-2">
           <div
             className="border bg-white px-5 pt-3 pb-3 rounded"
             style={{ width: "92%" }}
           >
             <h3>User Details</h3>
+            {/* will display info of the selected row */}
             <div className="mb-2">
               <strong>Name: {selectedRows[0].name}</strong>
             </div>
