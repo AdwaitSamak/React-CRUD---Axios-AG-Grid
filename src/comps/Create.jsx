@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 function Create() {
   useEffect(() => {
@@ -21,7 +19,6 @@ function Create() {
     email: "",
     phone: "",
     country: "",
-    dob: "",
   });
 
   const navigate = useNavigate();
@@ -33,95 +30,34 @@ function Create() {
     );
   };
   return (
-    <div className="d-flex w-100 py-4 justify-content-center align-items-center bg-light ">
-      <div className="w-50 border bg-white shadow px-5 pt-2 pb-3 rounded">
+    <div className="d-flex w-100 py-5 justify-content-center align-items-center bg-light">
+      <div className="w-50 border bg-white shadow pt-2 pb-3 rounded d-flex flex-column align-items-center">
         <h1>Add User</h1>
-        <form onSubmit={onhandleSubmit}>
-          <div className="mb-2">
-            <label className="form-label">
-              Name
+        <form onSubmit={onhandleSubmit} style={{ width: "300px" }}>
+        {["name", "username", "email", "phone", "country"].map((field) => (
+          <div className="mb-3" key={field}>
+            <label htmlFor={field} className="form-label">
+              {field.charAt(0).toUpperCase() + field.slice(1)}
             </label>
             <input
               type="text"
               className="form-control"
-              id="name"
-              placeholder="Enter Name"
-              onChange={(e) => {
-                setValues({ ...values, name: e.target.value });
-              }}
+              id={field}
+              placeholder={`Enter ${field.charAt(0).toUpperCase() + field.slice(1)}`}  //N+ame
+              value={values?.[field] || ''}   
+              onChange={(e) => setValues({ ...values, [field]: e.target.value })}
             />
           </div>
-          <div className="mb-2">
-            <label className="form-label">
-              Username
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              placeholder="Enter Username"
-              onChange={(e) =>
-                setValues({ ...values, username: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-2">
-            <label className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              placeholder="Enter Email"
-              onChange={(e) => setValues({ ...values, email: e.target.value })}
-            />
-          </div>
-          <div className="mb-2">
-            <label className="form-label">
-              Phone
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="phone"
-              placeholder="Enter Phone"
-              onChange={(e) => setValues({ ...values, phone: e.target.value })}
-            />
-          </div>
-          <div className="mb-2">
-            <label className="form-label">
-              Country
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="country"
-              placeholder="Enter Country"
-              onChange={(e) =>
-                setValues({ ...values, country: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-2">
-            <label className="form-label">
-              Date of Birth
-            </label>
-            <DatePicker
-              id="dob"
-              className="form-control"
-              onChange={(newValue) => setValues({ ...values, dob: dayjs(newValue).format('DD-MM-YYYY') })}
-            />
-          </div>
+        ))}
+        <div className="d-flex justify-content-between">
           <button type="submit" className="btn btn-outline-dark">
             Submit
           </button>
-          <Link to="/">
-            <button type="submit" className="btn btn-dark ms-3">
-              Cancel
-            </button>
-          </Link>
-        </form>
+          <button type="button" className="btn btn-dark" onClick={() => toggleupdatedrawer(false)}>
+            Cancel
+          </button>
+        </div>
+      </form>
       </div>
     </div>
   );

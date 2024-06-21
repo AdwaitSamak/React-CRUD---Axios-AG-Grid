@@ -23,9 +23,14 @@ function Home() {
   const [data, setData] = useState([]);
   const [preferencedrawer, setPreferencedrawer] = useState(false);
 
-  const NameFilterParams = {
-    trimInput: true,
-    caseSensitive: true,
+  const commonColumnProps = {
+    filter: "agTextColumnFilter",
+    floatingFilter: true,
+    suppressHeaderMenuButton: true,
+    unSortIcon: true,
+  };
+
+  const FilterParams = {
     buttons: ["apply", "reset", "clear"],
     closeOnApply: true,
   };
@@ -34,90 +39,38 @@ function Home() {
     {
       headerName: "Id",
       field: "id",
-      filter: "agTextColumnFilter",
-      filterParams: {
-        filterOptions: ["equals"],
-        buttons: ["apply", "reset", "clear"],
-        closeOnApply: true,
-      },
-      floatingFilter: true,
-      suppressHeaderMenuButton: true,
-      unSortIcon: true,
+      ...commonColumnProps,
+      filterParams: FilterParams
     },
     {
       headerName: "Name",
       field: "name",
-      filter: "agTextColumnFilter",
-      filterParams: NameFilterParams,
-      floatingFilter: true,
-      suppressHeaderMenuButton: true,
-      unSortIcon: true,
+      ...commonColumnProps,
+      filterParams: FilterParams,
     },
     {
       headerName: "Username",
       field: "username",
-      filter: "agTextColumnFilter",
-      filterParams: {
-        filterOptions: ["contains"],
-        buttons: ["apply", "reset", "clear"],
-        closeOnApply: true,
-      },
-      floatingFilter: true,
-      suppressHeaderMenuButton: true,
-      unSortIcon: true,
+      filterParams: FilterParams,
+      ...commonColumnProps
     },
     {
       headerName: "Email",
       field: "email",
-      filter: "agTextColumnFilter",
-      filterParams: {
-        filterOptions: ["contains"],
-        buttons: ["apply", "reset", "clear"],
-        closeOnApply: true,
-      },
-      floatingFilter: true,
-      suppressHeaderMenuButton: true,
-      unSortIcon: true,
+      ...commonColumnProps,
+      filterParams: FilterParams
     },
     {
       headerName: "Phone",
       field: "phone",
-      filter: "agTextColumnFilter",
-      floatingFilter: true,
-      suppressHeaderMenuButton: true,
-      filterParams: {
-        buttons: ["apply", "reset", "clear"],
-        closeOnApply: true,
-      },
-      unSortIcon: true,
+      ...commonColumnProps,
+      filterParams: FilterParams
     },
     {
       headerName: "Country",
       field: "country",
-      filter: "agTextColumnFilter",
-      floatingFilter: true,
-      suppressHeaderMenuButton: true,
-      filterParams: {
-        buttons: ["apply", "reset", "clear"],
-        closeOnApply: true,
-      },
-      unSortIcon: true,
-    },
-    {
-      headerName: "Date of Birth",
-      field: "dob",
-      unSortIcon: true,
-      filter: "agDateColumnFilter",
-      suppressHeaderMenuButton: true,
-      unSortIcon: true,
-      floatingFilter: true,
-      // suppressFloatingFilterButton: true,,
-      filterParams: {
-        browserDatePicker: true,
-        minValidYear: 1960,
-        maxValidYear: 2030,
-        buttons: ["reset", "apply"],
-      },
+      ...commonColumnProps,
+      filterParams: FilterParams
     },
     {
       headerName: "Actions",
@@ -131,7 +84,7 @@ function Home() {
     gridApi.current = params.api; // Initialize the grid and give access to the grid API
   };
 
-  useEffect(() => {
+  useEffect(() => {         //fetch data 
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/users");
@@ -143,7 +96,7 @@ function Home() {
     fetchData();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {            //fetching user preferences from local storage
     const storedPreferences = localStorage.getItem("userpreferencemap");
     if (storedPreferences) {
       setUserpreferencemap(JSON.parse(storedPreferences));
@@ -172,7 +125,7 @@ function Home() {
     }
   }, [colDefs, userpreferencemap]);
 
-  const savepreferences = () => {
+  const savepreferences = () => {        //saving preferences to local storage
     localStorage.setItem(
       "userpreferencemap",
       JSON.stringify(userpreferencemap)
@@ -196,8 +149,7 @@ function Home() {
 
   const gridref = useRef(); //gives reference to grid, wont change between renders
 
-  const onFilterTextBoxChanged = useCallback(() => {
-    //for quixk filter outside the grid
+  const onFilterTextBoxChanged = useCallback(() => {    //updates quick filter based on changes in 'filter-text-box'
     gridref.current.api.setGridOption(
       //uses the grid's ref to filter data in the grid
       "quickFilterText",
@@ -245,21 +197,22 @@ function Home() {
       style={{ height: "80%" }}
     >
       <div className="d-flex mt-2 flex-row-reverse" style={{ gap: "941px" }}>
-        <Link //create button
+        <Link                         //create button
           to="/create"
           className="btn btn-outline-dark mb-3 btn-sm"
           style={{ width: "30px", height: "30px" }}
           data-tooltip-id="my-tooltip"
           data-tooltip-content="Add Record"
           data-tooltip-place="top"
-        >
-          <IoMdAdd />
+        >          
+          <IoMdAdd />            
           <Tooltip id="my-tooltip" />
         </Link>
+
         <div className="pb-3 m-lg-1">
           <input // quick filter
             type="text"
-            id="filter-text-box"
+            id="filter-text-box"      //will use this id to retrieve current value in input and filter 
             placeholder=" Filter..."
             onInput={onFilterTextBoxChanged}
           />
@@ -271,11 +224,11 @@ function Home() {
           className="ag-theme-quartz"
           style={{ height: "55vh", width: "92%" }}
         >
-          <AgGridReact //grid
-            ref={gridref}
+          <AgGridReact                              //grid
+            ref={gridref}      //giving reference to grid
             rowData={data}
             columnDefs={visibleColDefs}
-            onGridReady={onGridReady}
+            onGridReady={onGridReady} //when grid is initialized, params is argument in onGridReady function, it has access to grid's api        
             rowSelection="single"
             onCellClicked={(event) => {
               if (event.colDef.headerName !== "Actions") {
@@ -285,54 +238,41 @@ function Home() {
             className="w-100 h-100;"
             pagination={true}
             paginationAutoPageSize={true}
-            defaultColDef={{ flex: 1 }}
+            defaultColDef={{ flex: 1 }}    //all columns adjust their width equally
           />
         </div>
+        
         <div className="d-flex flex-column gap-3 ">
-          <button
+          <button             //preferences wala button, on click krne pe drawer khulega
             onClick={() => togglepreferencesdrawer(true)}
             className="btn btn-sm btn-outline-dark"
           >
-            <SlOptionsVertical />
+            <SlOptionsVertical />           
           </button>
+
           <Drawer
             open={preferencedrawer} //is true, it will open
             onClose={() => togglepreferencesdrawer(false)} //sets preferencedrawer to false, close drawer
             anchor="right"
           >
-            {DrawerList}
+            {DrawerList}          
+            {/* will render drawerlist which is the checkboxes */}
           </Drawer>
         </div>
       </div>
-      {selectedRows.length !== 0 && ( //will only be visible if any row is selected
-        <div className="d-flex w-100 h-50 justify-content-center gap-3 pt-3 pb-2">
-          <div
-            className="border bg-white px-5 pt-3 pb-3 rounded"
-            style={{ width: "92%" }}
-          >
-            <h3>User Details</h3>
-            {/* will display info of the selected row */}
-            <div className="mb-2">
-              <strong>Name: {selectedRows[0].name}</strong>
-            </div>
-            <div className="mb-2">
-              <strong>Username: {selectedRows[0].username}</strong>
-            </div>
-            <div className="mb-2">
-              <strong>Email: {selectedRows[0].email}</strong>
-            </div>
-            <div className="mb-2">
-              <strong>Phone: {selectedRows[0].phone}</strong>
-            </div>
-            <div className="mb-2">
-              <strong>Country: {selectedRows[0].country}</strong>
-            </div>
-            <div className="mb-2">
-              <strong>Date of Birth: {selectedRows[0].dob}</strong>
-            </div>
-          </div>
-        </div>
-      )}
+      
+      {selectedRows.length !== 0 && (
+        <div className="d-flex justify-content-center pt-3 pb-2">
+          <div className="border bg-white rounded px-4 py-3" style={{ width: "92%" }}>
+              <h3>User Details</h3>
+              {Object.keys(selectedRows[0]).map((key) => ( // Iterate through keys of selected row
+                <div key={key} className="mb-2">
+                <strong>{key.charAt(0).toUpperCase() + key.slice(1)}: {selectedRows[0][key]}</strong> {/* Display each key and its corresponding value */}
+           </div>
+      ))}
+    </div>
+  </div>
+)}
     </div>
   );
 }

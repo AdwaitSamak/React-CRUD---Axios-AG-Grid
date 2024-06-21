@@ -1,17 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Tooltip from "@mui/material/Tooltip";
 import { Dialog, DialogActions, DialogTitle, Drawer } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
 
 function ButtonComp(props) {
-  // console.log(props);
   const rowid = props.rowid;
-  console.log(rowid);
 
   const [modalopen, setModalOpen] = useState(false);
   const [updatedrawer, setupdatedrawer] = useState(false);
@@ -39,7 +34,6 @@ function ButtonComp(props) {
         const response = await axios.get(
           "http://localhost:3000/users?id=" + rowid
         );
-        console.log(response.data[0]);
         setValues(response.data[0]);
       } catch (error) {
         console.log("Error in fetching data", error);
@@ -49,10 +43,9 @@ function ButtonComp(props) {
   }, []);
 
   const handledelete = (e) => {
-    console.log(rowid);
     axios
       .delete(`http://localhost:3000/users/${rowid}`)
-      .then((res) => {
+      .then(() => {
         location.reload();
       })
       .catch((error) => console.log(error));
@@ -64,11 +57,10 @@ function ButtonComp(props) {
 
   const handleUpdateform = (e) => {
     e.preventDefault();
-    // console.log(id);
     const url = `http://localhost:3000/users/${rowid}`;
     axios
       .put(url, values)
-      .then((res) => location.reload())
+      .then(() => location.reload())
       .catch((error) => console.log("Error updating user:", error));
   };
 
@@ -79,7 +71,7 @@ function ButtonComp(props) {
         style={{ width: "500px" }}
       >
         <div
-          className=" border bg-white shadow px-5 pt-1 rounded"
+          className=" border bg-white shadow px-5 pt-5 rounded"
           style={{
             width: "400px",
             height: "640px",
@@ -90,109 +82,38 @@ function ButtonComp(props) {
         >
           <h1>Update User</h1>
           {/* <hr/> */}
-          <form onSubmit={handleUpdateform} style={{ width: "300px" }}>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                placeholder="Enter Name" // lodash
-                value={values?.name}
-                onChange={(e) => setValues({ ...values, name: e.target.value })}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                Username
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                placeholder="Enter Username"
-                value={values?.username}
-                onChange={(e) =>
-                  setValues({ ...values, username: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="email"
-                placeholder="Enter Email"
-                value={values?.email}
-                onChange={(e) =>
-                  setValues({ ...values, email: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="phone" className="form-label">
-                Phone
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="phone"
-                placeholder="Enter Phone"
-                value={values?.phone}
-                onChange={(e) =>
-                  setValues({ ...values, phone: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="country" className="form-label">
-                Country
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="country"
-                placeholder="Enter Country"
-                value={values?.country}
-                onChange={(e) =>
-                  setValues({ ...values, country: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="dob" className="form-label">
-                Date of Birth
-              </label>
-              <DatePicker
-                id="dob"
-                className="form-control"
-                // value={values?.dob}
-                onChange={(newValue) =>
-                  setValues({
-                    ...values,
-                    dob: dayjs(newValue).format("DD-MM-YYYY"),
-                  })
-                }
-              />
-            </div>
-            {/* update drawer's submit buttonm */}
-            <button type="submit" className="btn btn-outline-dark">
-              Submit                       
-            </button>   
-                     {/* update drawer's cancel button */}
-            <button
-              type="submit"
-              className="btn btn-dark ms-3"
-              onClick={() => toggleupdatedrawer(false)}
-            >
-              Cancel
-            </button>
-          </form>
+          <form onSubmit={handleUpdateform} className="drawer-form">
+        {["name", "username", "email", "phone", "country"].map((field) => (
+          <div className="mb-3" key={field}>
+            <label htmlFor={field} className="form-label">
+              {field.charAt(0).toUpperCase() + field.slice(1)}    
+              {/* N + ame */}
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id={field}
+              placeholder={`Enter ${field.charAt(0).toUpperCase() + field.slice(1)}`}
+              value={values?.[field]}          //from fetched row's data's fields
+              onChange={(e) =>
+                setValues({ ...values, [field]: e.target.value })
+              }
+            />
+          </div>
+        ))}
+        <div className="d-flex justify-content-center align-items-center gap-5">
+        <button type="submit" className="btn btn-outline-dark btn-submit">
+          Submit
+        </button>
+        <button
+          type="button"
+          className="btn btn-dark btn-cancel"
+          onClick={() => toggleupdatedrawer(false)}
+        >
+          Cancel
+        </button>
+        </div>
+      </form>
         </div>
       </div>
     );

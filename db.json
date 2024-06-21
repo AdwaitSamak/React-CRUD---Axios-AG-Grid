@@ -6,8 +6,7 @@
       "username": "adsamak123",
       "email": "adwait@gmail.com",
       "phone": "7757091299",
-      "country": "India",
-      "dob": "30-05-2002"
+      "country": "India"
     },
     {
       "id": "2",
@@ -15,8 +14,7 @@
       "username": "ayush",
       "email": "ayush@gmail.com",
       "phone": "9373903192",
-      "country": "USA",
-      "dob": "01-05-2002"
+      "country": "India"
     },
     {
       "id": "3",
@@ -24,8 +22,7 @@
       "username": "demo",
       "email": "demo@gmail.com",
       "phone": "0123456789",
-      "country": "India",
-      "dob": "03-01-2000"
+      "country": "Switzerland"
     },
     {
       "id": "4",
@@ -33,8 +30,7 @@
       "username": "new",
       "email": "new@gmail.com",
       "phone": "123",
-      "country": "Canada",
-      "dob": "05-06-1995"
+      "country": "Canada"
     },
     {
       "id": "5",
@@ -42,8 +38,7 @@
       "username": "n2",
       "email": "n2@gmail",
       "phone": "123456",
-      "country": "Germany",
-      "dob": "30-07-2005"
+      "country": "Germany"
     },
     {
       "id": "6",
@@ -51,8 +46,7 @@
       "username": "hij",
       "email": "xscv",
       "phone": "123456",
-      "country": "Italy",
-      "dob": "10-09-2002"
+      "country": "Italy"
     },
     {
       "id": "7",
@@ -60,8 +54,7 @@
       "username": "demmmmooo",
       "email": "demoooo",
       "phone": "123456",
-      "country": "Spain",
-      "dob": "08-11-2010"
+      "country": "Spain"
     },
     {
       "id": "8",
@@ -69,8 +62,7 @@
       "username": "new",
       "email": "new@gmail.com",
       "phone": "8263903113",
-      "country": "France",
-      "dob": "01-01-2000"
+      "country": "France"
     },
     {
       "id": "9",
@@ -78,8 +70,7 @@
       "username": "ok",
       "email": "ok",
       "phone": "12345",
-      "country": "UK",
-      "dob": "30-05-2002"
+      "country": "UK"
     },
     {
       "id": "10",
@@ -87,8 +78,7 @@
       "username": "demo2",
       "email": "demo2@gmail.com",
       "phone": "12345678",
-      "country": "USA",
-      "dob": "30-05-2002"
+      "country": "USA"
     },
     {
       "id": "11",
@@ -96,17 +86,23 @@
       "username": "new",
       "email": "new@gmail.com",
       "phone": "123456",
-      "country": "France",
-      "dob": "30-05-2002"
+      "country": "France"
     },
     {
       "id": "12",
-      "name": "AA",
-      "username": "aa",
-      "email": "adwait@nice.com",
-      "phone": "12345",
-      "country": "India",
-      "dob": "23-12-2001"
+      "name": "Demo User2",
+      "username": "demo2",
+      "email": "new@gmail.com",
+      "phone": "8263903113",
+      "country": "India"
+    },
+    {
+      "id": "13",
+      "name": "ok",
+      "username": "ok",
+      "email": "ok",
+      "phone": "`12e32r314",
+      "country": "India"
     }
   ]
 }
