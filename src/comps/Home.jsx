@@ -61,7 +61,6 @@ function Home() {
       "userpreferencemap",
       JSON.stringify(userpreferencemap)
     );
-    // setShowPreferences((prev) => !prev);
     setPreferencedrawer(false);
   };
 
@@ -74,7 +73,7 @@ function Home() {
   };
 
   const visibleColDefs = colDefs.filter(
-    //filter those columns 3for whom the checkbox is selected, ie. userpreference map's field for that columns is true
+    //filter those columns 3for whom the checkbox is selected
     (column) => userpreferencemap[column.field] === true
   );
 
@@ -123,13 +122,12 @@ function Home() {
 
   return (
     <div
-      className="d-flex bg-light m-3 p-3 mt-3 flex-column border shadow rounded-3 justify-content-between"
-      style={{ height: "80%" }}
+      className="d-flex bg-light m-3 p-3 flex-column border shadow rounded-3"
     >
       <div className="d-flex mt-2 flex-row-reverse" style={{ gap: "941px" }}>
         <Link //create button
           to="/create"
-          className="btn btn-outline-dark mb-3 btn-sm"
+          className="btn btn-outline-dark btn-sm"
           style={{ width: "30px", height: "30px" }}
           data-tooltip-id="my-tooltip"
           data-tooltip-content="Add Record"
@@ -139,7 +137,7 @@ function Home() {
           <Tooltip id="my-tooltip" />
         </Link>
 
-        <div className="pb-3 m-lg-1">
+        <div className="pb-3 m-1">
           <input // quick filter
             type="text"
             id="filter-text-box" //will use this id to retrieve current value in input and filter
@@ -162,10 +160,11 @@ function Home() {
             rowSelection="single"
             onCellClicked={(event) => {
               if (event.colDef.headerName !== "Actions") {
+                // console.log([event.data]);
                 setSelectedRows([event.data]);
               }
             }}
-            className="w-100 h-100;"
+            // className="w-100 h-100"
             pagination={true}
             paginationAutoPageSize={true}
             defaultColDef={{ flex: 1 }} //all columns adjust their width equally
