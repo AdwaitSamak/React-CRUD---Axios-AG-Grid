@@ -6,13 +6,13 @@ import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
-import ButtonComp from "./ButtonComp";
 import { SlOptionsVertical } from "react-icons/sl";
 import { IoMdAdd } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { ModuleRegistry } from "@ag-grid-community/core";
 import "./styles.css";
 import { Drawer } from "@mui/material";
+import colDefs from "../data/colDefs";
 
 ModuleRegistry.registerModules([SetFilterModule]);
 
@@ -22,63 +22,7 @@ function Home() {
   const [userpreferencemap, setUserpreferencemap] = useState({ select: true });
   const [data, setData] = useState([]);
   const [preferencedrawer, setPreferencedrawer] = useState(false);
-
-  const commonColumnProps = {
-    filter: "agTextColumnFilter",
-    floatingFilter: true,
-    suppressHeaderMenuButton: true,
-    unSortIcon: true,
-  };
-
-  const FilterParams = {
-    buttons: ["apply", "reset", "clear"],
-    closeOnApply: true,
-  };
-
-  const colDefs = [
-    {
-      headerName: "Id",
-      field: "id",
-      ...commonColumnProps,
-      filterParams: FilterParams
-    },
-    {
-      headerName: "Name",
-      field: "name",
-      ...commonColumnProps,
-      filterParams: FilterParams,
-    },
-    {
-      headerName: "Username",
-      field: "username",
-      filterParams: FilterParams,
-      ...commonColumnProps
-    },
-    {
-      headerName: "Email",
-      field: "email",
-      ...commonColumnProps,
-      filterParams: FilterParams
-    },
-    {
-      headerName: "Phone",
-      field: "phone",
-      ...commonColumnProps,
-      filterParams: FilterParams
-    },
-    {
-      headerName: "Country",
-      field: "country",
-      ...commonColumnProps,
-      filterParams: FilterParams
-    },
-    {
-      headerName: "Actions",
-      cellRenderer: ButtonComp,
-      cellRendererParams: (params) => ({ rowid: params.data.id }),
-      sortable: false,
-    },
-  ];
+  const gridref = useRef(); //gives reference to grid, wont change between renders
 
   const onGridReady = (params) => {
     gridApi.current = params.api; // Initialize the grid and give access to the grid API
@@ -109,22 +53,6 @@ function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (colDefs) {
-      const visibleColumns = colDefs.filter(
-        //filter those columns for which user preference map shows true, i.e. they are not hidden
-        (column) => userpreferencemap[column.field] === true
-      );
-      const gridWidth = document.querySelector(".ag-theme-quartz").clientWidth;
-      const columnWidth = gridWidth / visibleColumns.length; //each visible columns gets this width
-
-      visibleColumns.forEach((column) => {
-        //set width after columns are hidden, i.e preference map changes
-        gridApi.current?.setColumnWidth(column.field, columnWidth);
-      });
-    }
-  }, [colDefs, userpreferencemap]);
-
   const savepreferences = () => {        //saving preferences to local storage
     localStorage.setItem(
       "userpreferencemap",
@@ -146,8 +74,6 @@ function Home() {
     //filter those columns 3for whom the checkbox is selected, ie. userpreference map's field for that columns is true
     (column) => userpreferencemap[column.field] === true
   );
-
-  const gridref = useRef(); //gives reference to grid, wont change between renders
 
   const onFilterTextBoxChanged = useCallback(() => {    //updates quick filter based on changes in 'filter-text-box'
     gridref.current.api.setGridOption(
