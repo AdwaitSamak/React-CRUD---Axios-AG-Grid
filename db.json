@@ -17,11 +17,11 @@
       "country": "India"
     },
     {
-      "name": "Demo User",
-      "username": "demo",
-      "email": "demo@gmail.com",
-      "phone": "0123456789",
-      "country": "USA",
+      "name": "Adwait",
+      "username": "adwait7",
+      "email": "adwait@nice.com",
+      "phone": "8767910499",
+      "country": "India",
       "id": "3"
     },
     {
@@ -93,14 +93,6 @@
       "name": "Demo User2",
       "username": "demo2",
       "email": "demo@gmail.com",
-      "phone": "8263903113",
-      "country": "India"
-    },
-    {
-      "id": "13",
-      "name": "hij",
-      "username": "demo2",
-      "email": "xscv",
       "phone": "8263903113",
       "country": "India"
     }

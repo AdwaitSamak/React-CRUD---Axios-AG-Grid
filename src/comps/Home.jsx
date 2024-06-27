@@ -28,7 +28,8 @@ function Home() {
     gridApi.current = params.api; // Initialize the grid and give access to the grid API
   };
 
-  useEffect(() => {         //fetch data 
+  useEffect(() => {
+    //fetch data
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/users");
@@ -40,7 +41,8 @@ function Home() {
     fetchData();
   }, []);
 
-  useEffect(() => {            //fetching user preferences from local storage
+  useEffect(() => {
+    //fetching user preferences from local storage
     const storedPreferences = localStorage.getItem("userpreferencemap");
     if (storedPreferences) {
       setUserpreferencemap(JSON.parse(storedPreferences));
@@ -53,7 +55,8 @@ function Home() {
     }
   }, []);
 
-  const savepreferences = () => {        //saving preferences to local storage
+  const savepreferences = () => {
+    //saving preferences to local storage
     localStorage.setItem(
       "userpreferencemap",
       JSON.stringify(userpreferencemap)
@@ -75,7 +78,8 @@ function Home() {
     (column) => userpreferencemap[column.field] === true
   );
 
-  const onFilterTextBoxChanged = useCallback(() => {    //updates quick filter based on changes in 'filter-text-box'
+  const onFilterTextBoxChanged = useCallback(() => {
+    //updates quick filter based on changes in 'filter-text-box'
     gridref.current.api.setGridOption(
       //uses the grid's ref to filter data in the grid
       "quickFilterText",
@@ -123,22 +127,22 @@ function Home() {
       style={{ height: "80%" }}
     >
       <div className="d-flex mt-2 flex-row-reverse" style={{ gap: "941px" }}>
-        <Link                         //create button
+        <Link //create button
           to="/create"
           className="btn btn-outline-dark mb-3 btn-sm"
           style={{ width: "30px", height: "30px" }}
           data-tooltip-id="my-tooltip"
           data-tooltip-content="Add Record"
           data-tooltip-place="top"
-        >          
-          <IoMdAdd />            
+        >
+          <IoMdAdd />
           <Tooltip id="my-tooltip" />
         </Link>
 
         <div className="pb-3 m-lg-1">
           <input // quick filter
             type="text"
-            id="filter-text-box"      //will use this id to retrieve current value in input and filter 
+            id="filter-text-box" //will use this id to retrieve current value in input and filter
             placeholder=" Filter..."
             onInput={onFilterTextBoxChanged}
           />
@@ -150,11 +154,11 @@ function Home() {
           className="ag-theme-quartz"
           style={{ height: "55vh", width: "92%" }}
         >
-          <AgGridReact                              //grid
-            ref={gridref}      //giving reference to grid
+          <AgGridReact //grid
+            ref={gridref} //giving reference to grid
             rowData={data}
             columnDefs={visibleColDefs}
-            onGridReady={onGridReady} //when grid is initialized, params is argument in onGridReady function, it has access to grid's api        
+            onGridReady={onGridReady} //when grid is initialized, params is argument in onGridReady function, it has access to grid's api
             rowSelection="single"
             onCellClicked={(event) => {
               if (event.colDef.headerName !== "Actions") {
@@ -164,16 +168,16 @@ function Home() {
             className="w-100 h-100;"
             pagination={true}
             paginationAutoPageSize={true}
-            defaultColDef={{ flex: 1 }}    //all columns adjust their width equally
+            defaultColDef={{ flex: 1 }} //all columns adjust their width equally
           />
         </div>
-        
+
         <div className="d-flex flex-column gap-3 ">
-          <button             //preferences wala button, on click krne pe drawer khulega
+          <button //preferences wala button, on click krne pe drawer khulega
             onClick={() => togglepreferencesdrawer(true)}
             className="btn btn-sm btn-outline-dark"
           >
-            <SlOptionsVertical />           
+            <SlOptionsVertical />
           </button>
 
           <Drawer
@@ -181,24 +185,32 @@ function Home() {
             onClose={() => togglepreferencesdrawer(false)} //sets preferencedrawer to false, close drawer
             anchor="right"
           >
-            {DrawerList}          
+            {DrawerList}
             {/* will render drawerlist which is the checkboxes */}
           </Drawer>
         </div>
       </div>
-      
+
       {selectedRows.length !== 0 && (
         <div className="d-flex justify-content-center pt-3 pb-2">
-          <div className="border bg-white rounded px-4 py-3" style={{ width: "92%" }}>
-              <h3>User Details</h3>
-              {Object.keys(selectedRows[0]).map((key) => ( // Iterate through keys of selected row
+          <div
+            className="border bg-white rounded px-4 py-3"
+            style={{ width: "92%" }}
+          >
+            <h3>User Details</h3>
+            {Object.keys(selectedRows[0])
+              .filter((key) => key !== "id") // Exclude the 'id' key as we dont need to show it
+              .map((key) => (
                 <div key={key} className="mb-2">
-                <strong>{key.charAt(0).toUpperCase() + key.slice(1)}: {selectedRows[0][key]}</strong> {/* Display each key and its corresponding value */}
-           </div>
-      ))}
-    </div>
-  </div>
-)}
+                  <h6>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}: {"  "} {selectedRows[0][key]}
+                  </h6>{" "}
+                  {/* Display each key and its corresponding value */}
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
